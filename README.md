@@ -257,17 +257,19 @@ podman push [CONTAINERNAME].azurecr.io/hello-dotnet:v1
 (https://docs.microsoft.com/en-us/azure/aks/servicemesh-istio-install?pivots=client-operating-system-linux)
 (https://istio.io/latest/docs/setup/platform-setup/azure/)
 
-curl -sL https://istio.io/downloadIstioctl | sh -
-export PATH=$PATH:$HOME/.istioctl/bin
+`curl -sL https://istio.io/downloadIstioctl | sh -`
 
-istioctl x precheck
+`export PATH=$PATH:$HOME/.istioctl/bin`
 
-istioctl operator init
-kubectl get all -n istio-operator
+`istioctl x precheck`
 
-istioctl profile dump default
+`istioctl operator init`
 
-touch istio.aks.yaml
+`kubectl get all -n istio-`operator`
+
+`istioctl profile dump `default`
+
+`touch istio.aks.yaml`
 
 ```bash
 apiVersion: install.istio.io/v1alpha1
@@ -300,21 +302,21 @@ spec:
           strategy: anonymous
 ```
 
-kubectl create ns istio-system
+`kubectl create ns istio-system`
 
-kubectl apply -f istio.aks.yaml
+`kubectl apply -f istio.aks.yaml   `
 
-kubectl get all -n istio-system
+`kubectl get all -n istio-system`
 
-istio label namespace default istio-injection=enabled
+`istio label namespace default istio-injection=enabled`
 
-kubectl get namespace -L istio-injection
+`kubectl get namespace -L istio-injection`
 
-kubectl get svc -n istio-system
+`kubectl get svc -n istio-system`
 
-kubectl get pods -n istio-system
+`kubectl get pods -n istio-`system`
 
-touch aspnetcore.yaml
+`touch aspnetcore.yaml`
 
 ```bash
 kind: Service
@@ -353,14 +355,14 @@ spec:
                 - containerPort: 8080
 ```
 
-kubectl apply -f aspnetcore.yaml
+`kubectl apply -f aspnetcore.yaml`
 
-az aks update -n aspnet-istio-aks -g aspnet-istio-rg-dev --attach-acr aspnetprojects
+`az aks update -n aspnet-istio-aks -g aspnet-istio-rg-dev --attach-acr aspnetprojects`
 (https://docs.microsoft.com/en-us/azure/aks/cluster-container-registry-integration?toc=/azure/container-registry/toc.json&bc=/azure/container-registry/breadcrumb/toc.json)
 
-kubectl get pods
+`kubectl get pods`
 
-touch aspnetcore-gateway.yaml
+`touch aspnetcore-gateway.yaml`
 
 ```bash
 apiVersion: networking.istio.io/v1alpha3
@@ -379,7 +381,7 @@ spec:
     - "*"
 ```
 
-touch aspnetcore-virtualservice.yaml
+`touch aspnetcore-virtualservice.yaml`
 
 ```bash
 apiVersion: networking.istio.io/v1alpha3
@@ -397,22 +399,22 @@ spec:
         host: aspnetcore-service
 ```
 
-kubectl apply -f aspnetcore-gateway.yaml
+`kubectl apply -f aspnetcore-gateway.yaml`
 
-kubectl apply -f aspnetcore-virtualservice.yaml
+`kubectl apply -f aspnetcore-virtualservice.yaml`
 
-kubectl get gateway
+`kubectl get gateway`
 
-kubectl get virtualservice
+`kubectl get virtualservice`
 
-kubectl get svc istio-ingressgateway -n istio-system
+`kubectl get svc istio-ingressgateway -n istio-system`
 
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+`export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')`
 
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+`export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')`
 
-export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+`export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`
 
-echo $GATEWAY_URL
+`echo $GATEWAY_URL`
 
-curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/
+`curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/`
