@@ -265,9 +265,9 @@ podman push [CONTAINERNAME].azurecr.io/hello-dotnet:v1
 
 `istioctl operator init`
 
-`kubectl get all -n istio-`operator`
+`kubectl get all -n istio-operator`
 
-`istioctl profile dump `default`
+`istioctl profile dump default`
 
 `touch istio.aks.yaml`
 
@@ -314,7 +314,7 @@ spec:
 
 `kubectl get svc -n istio-system`
 
-`kubectl get pods -n istio-`system`
+`kubectl get pods -n istio-system`
 
 `touch aspnetcore.yaml`
 
